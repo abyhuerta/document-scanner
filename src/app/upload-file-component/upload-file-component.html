@@ -1,0 +1,40 @@
+<h1>Upload Document</h1>
+<div class="upload-form">
+<div class="file-upload-box" 
+     [class.has-file]="selectedFile"
+     (click)="fileInput.click()"> 
+     <input 
+      type="file" 
+      #fileInput 
+      style="display: none" 
+      (change)="onFileSelected($event)">
+      <h2>SelectFile</h2>
+    </div>
+
+  <mat-card class="submitted-file-preview" appearance="outlined">
+  <img #originalImg mat-card-image [src]=" " alt="Photo of Submitted File">
+  <!-- <mat-card-actions>
+    <button matButton>LIKE</button>
+    <button matButton>SHARE</button>
+  </mat-card-actions> -->
+  </mat-card>
+
+
+<div #resultContainer class="scan-result-box processed-file-preview">
+
+</div>
+
+  <mat-form-field appearance="fill" class="mobile-full-width">
+    <mat-label>Category</mat-label>
+    <mat-select>
+      <mat-option value="one">Legal</mat-option>
+      <mat-option value="two">Medical</mat-option>
+      <mat-option value="three">bleh</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="mobile-full-width">
+    <mat-label>Comments</mat-label>
+    <textarea matInput aria-label=" d" rows="3"></textarea> 
+  </mat-form-field>
+</div>

@@ -1,0 +1,48 @@
+h1{
+    text-align: center;
+}
+
+.btn{
+    margin-left: 50px;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column; /* Stack everything vertically */
+  align-items: center;    /* Center the stack */
+  
+  width: 90vw;            /* Take up 90% of screen width on mobile */
+  max-width: 500px;       /* Stop it from getting too big on tablets */
+  margin: 20px auto;      /* Top spacing */
+  gap: 24px;              /* Big gaps prevent accidental clicks */
+}
+
+/* Make every field fill the container */
+.mobile-full-width {
+  width: 100%;
+  font-size: 16px;        /* Prevents iOS from zooming in when you tap */
+}
+
+.file-upload-box{
+    border: 2px dashed #06fd6d;
+    border-radius: 5px;
+    width: 90vw;
+    height: 20vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-upload-box input{
+    margin: 0 auto;
+    background-color: #06fd6d;
+}
+
+.submitted-file-preview{
+    width: 80vw;
+    align-items: start inline;
+}
+
+.submitted-file-preview img{
+    width: 20vw;
+}

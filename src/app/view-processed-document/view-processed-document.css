@@ -1,0 +1,29 @@
+figcaption{
+    color:aliceblue;
+}
+
+h1{
+    text-align: center;
+}
+
+/* 1. Reset the default browser indentation on the figure tag */
+.figure{
+    margin: 0; 
+    width: 100%; /* Ensure the container spans the full width */
+    text-align: center; /* This helps center inline content like images */
+}
+
+.skeleton-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+}
+
+/* 2. Center the image block */
+.document-img,.img-loader{
+    display: block;      /* Makes the image a block element */
+    margin: 0 auto;      /* "0" top/bottom, "Auto" left/right centers it */
+    width: 90vw;         /* Your desired width */
+    max-width: 100%;     /* Prevents it from overflowing on small screens */
+}

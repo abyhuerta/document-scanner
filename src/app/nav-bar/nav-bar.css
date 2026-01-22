@@ -1,0 +1,13 @@
+.menu-bar{
+    position: fixed; /* Fixes the element relative to the viewport */
+    bottom: 0;       /* Positions the element at the very bottom of the viewport */
+    width: 100%;     /* Ensures the navbar spans the full width of the screen */
+    background-color: rgb(35, 97, 66);
+    overflow: hidden
+}
+
+
+i{
+    font-size: 10vw;
+    color: green;
+}
