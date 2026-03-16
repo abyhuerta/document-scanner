@@ -1,5 +1,9 @@
-figcaption{
-    color:aliceblue;
+.pdf-viewer {
+    display: block;
+    margin: 0 auto;
+    width: 90vw;
+    height: 85vh;
+    border: none;
 }
 
 h1{

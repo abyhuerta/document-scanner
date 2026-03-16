@@ -1,10 +1,7 @@
 <h1>{{ documentData()?.fileName }}</h1>
 @if (fileURL(); as url) {
-  <figure class="figure">
-  <img [src]="url" class="figure-img document-img img-fluid rounded" alt="...">
-  <figcaption class="figure-caption">A caption for the above image. Sample doc</figcaption>
-</figure>
-} 
+  <iframe [src]="url" class="pdf-viewer"></iframe>
+}
 @else {
   <div class="skeleton-loader">
      <mat-spinner class="img-loader"></mat-spinner>

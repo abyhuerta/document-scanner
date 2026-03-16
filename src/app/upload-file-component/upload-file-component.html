@@ -1,40 +1,124 @@
 <h1>Upload Document</h1>
+
 <div class="upload-form">
-<div class="file-upload-box" 
-     [class.has-file]="selectedFile"
-     (click)="fileInput.click()"> 
-     <input 
-      type="file" 
-      #fileInput 
-      style="display: none" 
-      (change)="onFileSelected($event)">
-      <h2>SelectFile</h2>
+
+  <!-- File selector -->
+  <div class="file-upload-box" [class.has-file]="selectedFile" (click)="fileInput.click()">
+    <input
+      type="file"
+      #fileInput
+      style="display:none"
+      accept="image/jpeg,image/png,image/heic,image/heif"
+      (change)="onFileSelected($event)"
+    />
+    <i class="bi bi-camera upload-icon"></i>
+    <h2>{{ selectedFile ? selectedFile.name : 'Tap to select photo' }}</h2>
+    <p class="upload-hint">JPEG · PNG · HEIC</p>
+  </div>
+
+  <!-- Status banners -->
+  @if (blurryWarning()) {
+    <div class="scan-banner scan-warning">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      Image appears blurry — scan quality may be reduced.
     </div>
+  }
 
-  <mat-card class="submitted-file-preview" appearance="outlined">
-  <img #originalImg mat-card-image [src]=" " alt="Photo of Submitted File">
-  <!-- <mat-card-actions>
-    <button matButton>LIKE</button>
-    <button matButton>SHARE</button>
-  </mat-card-actions> -->
-  </mat-card>
+  @if (scanStatus() === 'processing') {
+    <div class="scan-status">
+      <mat-spinner diameter="28"></mat-spinner>
+      <span>Detecting document…</span>
+    </div>
+  }
 
+  @if (scanStatus() === 'error') {
+    <div class="scan-banner scan-error">
+      <i class="bi bi-x-circle-fill"></i>
+      Could not process image. Try a clearer, well-lit photo.
+    </div>
+  }
 
-<div #resultContainer class="scan-result-box processed-file-preview">
+  <!-- #originalImg must always be in the DOM (ViewChild ref used during processing).
+       Shown as a small thumbnail once a file is selected, shrinks further when done. -->
+  <img
+    #originalImg
+    class="original-thumb"
+    [class.visible]="originalImgUrl()"
+    [class.small]="scanStatus() === 'done'"
+    [src]="originalImgUrl() || ''"
+    alt="Original photo"
+  />
 
-</div>
+  <!-- Processed result — #resultContainer always in DOM for the same reason.
+       Fills the full container width so the scan is easy to review. -->
+  <div #resultContainer class="scan-result-box"></div>
 
+  <!-- Metadata -->
   <mat-form-field appearance="fill" class="mobile-full-width">
     <mat-label>Category</mat-label>
-    <mat-select>
-      <mat-option value="one">Legal</mat-option>
-      <mat-option value="two">Medical</mat-option>
-      <mat-option value="three">bleh</mat-option>
+    <mat-select [(ngModel)]="category">
+      <mat-option value="legal">Legal</mat-option>
+      <mat-option value="medical">Medical</mat-option>
+      <mat-option value="finance">Finance</mat-option>
+      <mat-option value="personal">Personal</mat-option>
+      <mat-option value="other">Other</mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="mobile-full-width">
     <mat-label>Comments</mat-label>
-    <textarea matInput aria-label=" d" rows="3"></textarea> 
+    <textarea matInput [(ngModel)]="comment" rows="3" aria-label="Comments"></textarea>
   </mat-form-field>
+
+  <!-- Save / uploading -->
+  @if (isProcessing()) {
+    <div class="scan-status">
+      <mat-spinner diameter="28"></mat-spinner>
+      <span>Uploading…</span>
+    </div>
+  } @else if (scanStatus() === 'done') {
+    <button mat-flat-button color="primary" class="action-button" (click)="saveDocument()">
+      <i class="bi bi-save2"></i> Save Document
+    </button>
+  }
+
 </div>
+
+<!-- ── Corner-selection modal (full-screen) ────────────────────────────────
+     Rendered outside .upload-form so position:fixed covers the whole viewport.
+     Shown only when auto-detection fails and manual correction is needed.     -->
+@if (scanStatus() === 'manual') {
+  <div class="corner-modal" role="dialog" aria-modal="true" aria-label="Adjust document corners">
+
+    <div class="corner-modal-header">
+      <i class="bi bi-arrows-move"></i>
+      <span>Drag the <strong>green corners</strong> to the edges of the document</span>
+    </div>
+
+    <div class="corner-modal-viewport">
+      <!-- Image is drawn directly onto the canvas in drawCornerOverlay() so
+           there is no timing issue with a separate <img> loading asynchronously. -->
+      <canvas
+        #cornerCanvas
+        class="corner-modal-canvas"
+        (mousedown)="onCornerMouseDown($event)"
+        (mousemove)="onCornerMouseMove($event)"
+        (mouseup)="onCornerPointerUp()"
+        (mouseleave)="onCornerPointerUp()"
+        (touchstart)="onCornerTouchStart($event)"
+        (touchmove)="onCornerTouchMove($event)"
+        (touchend)="onCornerPointerUp()"
+      ></canvas>
+    </div>
+
+    <div class="corner-modal-footer">
+      <button mat-stroked-button class="modal-cancel" (click)="cancelManualMode()">
+        Cancel
+      </button>
+      <button mat-flat-button color="primary" (click)="applyManualCorners()">
+        <i class="bi bi-check2-square"></i> Apply Corners
+      </button>
+    </div>
+
+  </div>
+}

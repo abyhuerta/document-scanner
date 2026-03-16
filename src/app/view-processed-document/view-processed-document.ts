@@ -5,6 +5,7 @@ import { db as firebaseDB } from "../firebase";
 import { ProcessedDoc } from '../models/ProcessedDoc';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-view-processed-document',
@@ -16,9 +17,11 @@ export class ViewProcessedDocument {
 
   private storage = getStorage();
   private activatedRoute = inject(ActivatedRoute);
+  private sanitizer = inject(DomSanitizer);
   private fileRef!: ReturnType<typeof ref>;
   private fileid = signal('');
-  fileURL = signal<string>('');
+  private rawFileURL = signal<string>('');
+  fileURL = signal<SafeResourceUrl>('');
   documentData = signal<ProcessedDoc | null>(null);
 
   constructor(private ngZone: NgZone, private cdr: ChangeDetectorRef) {
@@ -63,14 +66,15 @@ export class ViewProcessedDocument {
 
         getDownloadURL(this.fileRef).then(url => {
          this.ngZone.run(() => {
-          this.fileURL.set(url);
+          this.rawFileURL.set(url);
+          this.fileURL.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
          });
         });
       }
   }
 
   downloadFile() {
-    const url = this.fileURL();
+    const url = this.rawFileURL();
     if(!url) return;
 
     fetch(url).then(response => response.blob())
