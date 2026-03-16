@@ -1,28 +1,37 @@
-<h1>Processed Documents</h1>
+<div class="docs-page">
 
-<div class="mat-elevation-z8">
-  <table mat-table [dataSource]="processedDocs()">
+  <h1>My Documents</h1>
 
-    <ng-container matColumnDef="index">
-      <th mat-header-cell *matHeaderCellDef> # </th>
-      <td mat-cell *matCellDef="let doc; let i = index"> {{ i + 1 }} </td>
-    </ng-container>
+  @if (processedDocs().length === 0) {
+    <div class="empty-state">
+      <i class="bi bi-folder-x"></i>
+      <p>No documents yet</p>
+      <a routerLink="/uploadFile" class="empty-cta">
+        <i class="bi bi-camera-fill"></i> Scan your first document
+      </a>
+    </div>
+  } @else {
+    <div class="docs-list">
+      @for (doc of processedDocs(); track doc.id; let i = $index) {
+        <div class="doc-card" (click)="onFileClick(doc)">
+          <div class="doc-icon">
+            <i class="bi bi-file-earmark-pdf-fill"></i>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">{{ doc.fileName }}</div>
+            <div class="doc-meta">
+              @if (doc.tag) {
+                <span class="doc-tag">{{ doc.tag }}</span>
+              }
+              <span class="doc-status" [class.status-done]="doc.status === 'processed'">
+                {{ doc.status }}
+              </span>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right doc-chevron"></i>
+        </div>
+      }
+    </div>
+  }
 
-    <ng-container matColumnDef="fileName">
-      <th mat-header-cell *matHeaderCellDef> File Name </th>
-      <td mat-cell *matCellDef="let doc">
-        <a href="javascript:void(0)" (click)="onFileClick(doc)">
-          {{ doc.fileName }}
-        </a>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let doc"> {{ doc.status }} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
 </div>

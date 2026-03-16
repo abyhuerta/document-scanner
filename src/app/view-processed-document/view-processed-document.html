@@ -1,11 +1,24 @@
-<h1>{{ documentData()?.fileName }}</h1>
-@if (fileURL(); as url) {
-  <iframe [src]="url" class="pdf-viewer"></iframe>
-}
-@else {
-  <div class="skeleton-loader">
-     <mat-spinner class="img-loader"></mat-spinner>
-  </div>
-}
+<div class="view-page">
 
-<button class="btn btn-primary" type="submit" (click)="downloadFile()"><i class="bi bi-download"></i> download</button>
+  <!-- Header row: back button + title -->
+  <div class="view-header">
+    <button class="back-btn" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    <h1 class="view-title">{{ documentData()?.fileName || 'Document' }}</h1>
+    <button class="download-btn" (click)="downloadFile()" [disabled]="!fileURL()">
+      <i class="bi bi-download"></i>
+    </button>
+  </div>
+
+  <!-- PDF viewer or loading spinner -->
+  @if (fileURL(); as url) {
+    <iframe [src]="url" class="pdf-viewer"></iframe>
+  } @else {
+    <div class="skeleton-loader">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p class="loading-text">Loading document…</p>
+    </div>
+  }
+
+</div>

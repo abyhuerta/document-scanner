@@ -686,10 +686,18 @@ export class UploadFileComponent {
       // Upload raw photo
       await uploadBytes(ref(this.storage, rawPath), this.selectedFile);
 
-      // Embed processed canvas into a PDF sized to the canvas dimensions
+      // Convert canvas pixel dimensions (at 300 dpi) to millimetres so jsPDF
+      // produces a correctly-sized page.  unit:'px' treats pixels as typographic
+      // points (~96 dpi), which inflates the page to ~2.6× A4 and makes every
+      // viewer show the document zoomed in on mobile.
+      // 1 inch = 25.4 mm, canvas is rendered at 300 dpi → px ÷ 300 × 25.4 = mm
+      const mmW = (canvas.width  / 300) * 25.4;
+      const mmH = (canvas.height / 300) * 25.4;
+      const orientation = mmW < mmH ? 'portrait' : 'landscape';
+
       const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: [canvas.width, canvas.height] });
-      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      const pdf = new jsPDF({ orientation, unit: 'mm', format: [mmW, mmH] });
+      pdf.addImage(imgData, 'PNG', 0, 0, mmW, mmH);
       const pdfBlob = pdf.output('blob');
 
       await uploadBytes(ref(this.storage, processedPath), pdfBlob, { contentType: 'application/pdf' });

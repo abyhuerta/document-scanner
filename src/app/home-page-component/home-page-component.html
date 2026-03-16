@@ -1,23 +1,31 @@
-<!-- <p>home-page-component works!</p> -->
+<div class="home-page">
 
-<h1>Document Scanner</h1>
-
-    <div class="container text-center">
-        <div class="row">
-            <div class="col">
-                <button type="button" class="btn btn-success">
-                    <i class="bi bi-upload"></i>
-                    upload
-                </button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-success">
-                    <i class="bi bi-folder"></i>
-                    view files
-                </button>
-            </div>
-            <div class="col">
-
-            </div>
-        </div>
+  <div class="home-hero">
+    <div class="home-logo">
+      <i class="bi bi-file-earmark-text-fill"></i>
     </div>
+    <h1>DocuScanner</h1>
+    <p class="home-subtitle">Scan, save &amp; access your documents anywhere</p>
+  </div>
+
+  <div class="home-actions">
+    <a routerLink="/uploadFile" class="home-card">
+      <i class="bi bi-camera-fill home-card-icon"></i>
+      <div class="home-card-text">
+        <h2>Scan Document</h2>
+        <p>Take a photo and convert it to a clean PDF</p>
+      </div>
+      <i class="bi bi-arrow-right-circle home-card-arrow"></i>
+    </a>
+
+    <a routerLink="/viewDocs" class="home-card">
+      <i class="bi bi-folder2-open home-card-icon"></i>
+      <div class="home-card-text">
+        <h2>My Documents</h2>
+        <p>Browse and download your saved scans</p>
+      </div>
+      <i class="bi bi-arrow-right-circle home-card-arrow"></i>
+    </a>
+  </div>
+
+</div>

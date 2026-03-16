@@ -1,4 +1,130 @@
-.table{
-    background-color: yellow;
-    max-width: 100%;
+.docs-page {
+  padding: 24px 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ── Empty state ─────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 60px 24px;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+}
+
+.empty-state i {
+  font-size: 3.5rem;
+  color: rgba(6, 253, 109, 0.3);
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.empty-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 12px 24px;
+  background: #06fd6d;
+  color: #002e17;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 50px;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Document cards ──────────────────────────────── */
+.docs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.doc-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.doc-card:active {
+  background: rgba(6, 253, 109, 0.07);
+  border-color: rgba(6, 253, 109, 0.3);
+}
+
+.doc-icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(6, 253, 109, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.doc-icon i {
+  font-size: 1.4rem;
+  color: #06fd6d;
+}
+
+.doc-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.doc-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #e8f5ee;
+}
+
+.doc-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.doc-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(6, 253, 109, 0.15);
+  color: #06fd6d;
+  padding: 2px 8px;
+  border-radius: 50px;
+}
+
+.doc-status {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: capitalize;
+}
+
+.doc-status.status-done {
+  color: #06fd6d;
+}
+
+.doc-chevron {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
 }

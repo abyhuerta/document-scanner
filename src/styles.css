@@ -1,18 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 
 :root {
   @include mat.progress-spinner-overrides((
-    active-indicator-color: orange,
+    active-indicator-color: #06fd6d,
   ));
 }
-body{
-    margin:0;
-    background-color: rgb(0, 46, 23);
-    color:aliceblue;
-    font-family: 'Montserrat', sans-serif;
+
+body {
+  margin: 0;
+  background-color: #002e17;
+  color: #e8f5ee;
+  font-family: 'Montserrat', sans-serif;
+  /* Leave room for the fixed bottom nav bar */
+  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
 }
 
-h1{
-    text-align: center;
+h1 {
+  text-align: center;
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+
+a {
+  color: #06fd6d;
+}
+
+/* Material form fields on dark background */
+.mat-mdc-form-field {
+  --mdc-filled-text-field-container-color: rgba(255, 255, 255, 0.07);
+  --mdc-filled-text-field-label-text-color: rgba(255, 255, 255, 0.6);
+  --mdc-filled-text-field-input-text-color: #e8f5ee;
+  --mdc-filled-text-field-active-indicator-color: #06fd6d;
+  --mdc-filled-text-field-focus-active-indicator-color: #06fd6d;
+  --mdc-filled-text-field-focus-label-text-color: #06fd6d;
 }

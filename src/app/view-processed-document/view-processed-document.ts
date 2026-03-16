@@ -73,6 +73,10 @@ export class ViewProcessedDocument {
       }
   }
 
+  goBack() {
+    history.back();
+  }
+
   downloadFile() {
     const url = this.rawFileURL();
     if(!url) return;

@@ -1,13 +1,40 @@
-.menu-bar{
-    position: fixed; /* Fixes the element relative to the viewport */
-    bottom: 0;       /* Positions the element at the very bottom of the viewport */
-    width: 100%;     /* Ensures the navbar spans the full width of the screen */
-    background-color: rgb(35, 97, 66);
-    overflow: hidden
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: #0d2e1c;
+  border-top: 1px solid rgba(6, 253, 109, 0.15);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  z-index: 100;
 }
 
+.nav-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 24px;
+  border-radius: 10px;
+  transition: color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
 
-i{
-    font-size: 10vw;
-    color: green;
+.nav-tab i {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.nav-tab.active {
+  color: #06fd6d;
 }

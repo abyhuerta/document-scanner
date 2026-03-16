@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(npm install:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(\"c:\\\\Users\\\\abyhu\\\\portfolio\\\\projects\\\\document-scanner\\\\src\\\\app\\\\read-document-component\\\\read-document-component.css\")"
     ]
   }
 }
