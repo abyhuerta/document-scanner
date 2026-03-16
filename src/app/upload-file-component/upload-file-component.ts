@@ -55,6 +55,7 @@ export class UploadFileComponent {
   scanner: any;
   comment = '';
   category = '';
+  docName = '';
 
   // Manual corner selection — positions stored in natural image coordinates
   private corners: { x: number; y: number }[] = [];
@@ -702,7 +703,8 @@ export class UploadFileComponent {
 
       await uploadBytes(ref(this.storage, processedPath), pdfBlob, { contentType: 'application/pdf' });
 
-      const pdfFileName = this.selectedFile!.name.replace(/\.[^.]+$/, '') + '.pdf';
+      const baseName = this.docName.trim() || this.selectedFile!.name.replace(/\.[^.]+$/, '');
+      const pdfFileName = baseName.replace(/\.pdf$/i, '') + '.pdf';
       const document: ProcessedDoc = {
         contentType: 'application/pdf',
         documentDate: null,

@@ -55,6 +55,17 @@
 
   <!-- Metadata -->
   <mat-form-field appearance="fill" class="mobile-full-width">
+    <mat-label>Document name</mat-label>
+    <input
+      matInput
+      [(ngModel)]="docName"
+      [placeholder]="selectedFile ? selectedFile.name.replace(/\.[^.]+$/, '') : 'e.g. W-2 2024'"
+      autocomplete="off"
+    />
+    <mat-hint>Leave blank to use the photo filename</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="mobile-full-width">
     <mat-label>Category</mat-label>
     <mat-select [(ngModel)]="category">
       <mat-option value="legal">Legal</mat-option>

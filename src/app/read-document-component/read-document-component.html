@@ -1,7 +1,47 @@
 <div class="docs-page">
 
-  <h1>My Documents</h1>
+  <!-- ── Header ─────────────────────────────────────────────────── -->
+  <div class="docs-header">
+    @if (selectionMode()) {
+      <span class="selection-count">{{ selectedIds().size }} selected</span>
+      <div class="header-actions">
+        @if (selectedIds().size > 0) {
+          <button class="btn-delete" (click)="deleteSelected()" [disabled]="isDeleting()">
+            @if (isDeleting()) {
+              <i class="bi bi-hourglass-split"></i> Deleting…
+            } @else {
+              <i class="bi bi-trash3-fill"></i> Delete
+            }
+          </button>
+        }
+        <button class="btn-cancel" (click)="cancelSelectionMode()" [disabled]="isDeleting()">
+          Cancel
+        </button>
+      </div>
+    } @else {
+      <h1>My Documents</h1>
+      @if (processedDocs().length > 0) {
+        <button class="btn-select" (click)="enterSelectionMode()">Select</button>
+      }
+    }
+  </div>
 
+  <!-- ── Category filter chips (hidden in selection mode & when only one category) -->
+  @if (!selectionMode() && categories().length > 1) {
+    <div class="filter-row">
+      @for (cat of categories(); track cat) {
+        <button
+          class="filter-chip"
+          [class.active]="activeFilter() === cat"
+          (click)="setFilter(cat)"
+        >
+          {{ cat === 'all' ? 'All' : cat }}
+        </button>
+      }
+    </div>
+  }
+
+  <!-- ── Empty state (no docs at all) ──────────────────────────────── -->
   @if (processedDocs().length === 0) {
     <div class="empty-state">
       <i class="bi bi-folder-x"></i>
@@ -10,25 +50,51 @@
         <i class="bi bi-camera-fill"></i> Scan your first document
       </a>
     </div>
+
+  <!-- ── Filtered empty (docs exist but none match the active filter) -->
+  } @else if (filteredDocs().length === 0) {
+    <div class="empty-state">
+      <i class="bi bi-filter-circle"></i>
+      <p>No <strong>{{ activeFilter() }}</strong> documents</p>
+      <button class="empty-cta" (click)="setFilter('all')">Show all documents</button>
+    </div>
+
+  <!-- ── Document cards ─────────────────────────────────────────── -->
   } @else {
     <div class="docs-list">
-      @for (doc of processedDocs(); track doc.id; let i = $index) {
-        <div class="doc-card" (click)="onFileClick(doc)">
-          <div class="doc-icon">
-            <i class="bi bi-file-earmark-pdf-fill"></i>
-          </div>
-          <div class="doc-info">
-            <div class="doc-name">{{ doc.fileName }}</div>
-            <div class="doc-meta">
-              @if (doc.tag) {
-                <span class="doc-tag">{{ doc.tag }}</span>
+      @for (document of filteredDocs(); track document.id) {
+        <div
+          class="doc-card"
+          [class.selected]="isSelected(document.id!)"
+          (click)="onCardClick(document)"
+        >
+          @if (selectionMode()) {
+            <div class="doc-check" [class.checked]="isSelected(document.id!)">
+              @if (isSelected(document.id!)) {
+                <i class="bi bi-check-lg"></i>
               }
-              <span class="doc-status" [class.status-done]="doc.status === 'processed'">
-                {{ doc.status }}
+            </div>
+          } @else {
+            <div class="doc-icon">
+              <i class="bi bi-file-earmark-pdf-fill"></i>
+            </div>
+          }
+
+          <div class="doc-info">
+            <div class="doc-name">{{ document.fileName }}</div>
+            <div class="doc-meta">
+              @if (document.tag) {
+                <span class="doc-tag">{{ document.tag }}</span>
+              }
+              <span class="doc-status" [class.status-done]="document.status === 'processed'">
+                {{ document.status }}
               </span>
             </div>
           </div>
-          <i class="bi bi-chevron-right doc-chevron"></i>
+
+          @if (!selectionMode()) {
+            <i class="bi bi-chevron-right doc-chevron"></i>
+          }
         </div>
       }
     </div>
